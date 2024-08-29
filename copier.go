@@ -139,6 +139,12 @@ func copier(toValue interface{}, fromValue interface{}, opt Option) (err error) 
 		return ErrInvalidCopyFrom
 	}
 
+	// If possible, simply copy the struct
+	if from.Type().AssignableTo(to.Type()) {
+		to.Set(from)
+		return
+	}
+
 	fromType, isPtrFrom := indirectType(from.Type())
 	toType, _ := indirectType(to.Type())
 

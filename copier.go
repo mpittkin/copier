@@ -140,7 +140,8 @@ func copier(toValue interface{}, fromValue interface{}, opt Option) (err error) 
 	}
 
 	// If possible, simply copy the struct
-	if from.Type().AssignableTo(to.Type()) {
+	//if from.Type().AssignableTo(to.Type()) && to.Kind() == reflect.Interface {
+	if from.Kind() == reflect.Struct && from.Type().AssignableTo(to.Type()) && reflect.TypeOf(to.Interface()) == nil {
 		to.Set(from)
 		return
 	}
